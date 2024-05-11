@@ -3,7 +3,10 @@ const dotenv = require("dotenv");
 const axios = require("axios");
 const Projects = require("./MiddleWares/Projects");
 const Links = require("./MiddleWares/SocialLink");
+const express = require("express");
 // !---------------------------------
+
+const app = express();
 
 // dotenv.config({ path: "./Config/config.env" });
 dotenv.config();
@@ -30,7 +33,7 @@ ShahidALT_Bot.onText(/\/menu/, (message) => {
   try {
     const chatID = message.from.id;
     MenuList =
-      "1. /MyRepository \n2. /projects \n3. /socail_links \n4. /dictionary";
+      "1. /MyRepository \n2. /projects \n3. /socail_links \n4. /dictionary \n5. /Repository github_user";
     ShahidALT_Bot.sendMessage(chatID, MenuList);
   } catch (error) {
     console.log(error.message);
@@ -197,4 +200,13 @@ ShahidALT_Bot.onText(/\Repository (.+)/, async (message, match) => {
   }
 });
 
-console.log("Telegram Bot server is started");
+app.use("*", (req, res) => {
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "server is running",
+  });
+});
+app.listen(8000, () => {
+  console.log("server is running on 8000");
+});
